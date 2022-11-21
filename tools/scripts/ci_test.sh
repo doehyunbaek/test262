@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [ "$CIRCLE_PULL_REQUEST" != "" ]; then
+# this is for testing
+if [ "$CIRCLE_PULL_REQUEST" == "" ]; then
   paths=$(git diff --diff-filter ACMR --name-only origin/main.. -- test/)
 
   if [ "$paths" == "" ]; then
