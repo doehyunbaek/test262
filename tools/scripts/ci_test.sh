@@ -12,6 +12,10 @@ if [ "$CIRCLE_PULL_REQUEST" != "" ]; then
   echo "$paths"
   echo ""
 
-  echo "Running the tests with test262-harness"
-  test262-harness -t 1 --hostType=$hostType --hostPath=$hostPath --hostArgs="$hostArgs" -- $paths
+  if [ "$hostType" == "esmeta" ]; then
+    $hostPath test262-test -status $paths
+  else
+    echo "Running the tests with test262-harness"
+    test262-harness -t 1 --hostType=$hostType --hostPath=$hostPath --hostArgs="$hostArgs" -- $paths
+  fi
 fi

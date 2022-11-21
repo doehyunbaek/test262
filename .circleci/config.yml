@@ -166,6 +166,18 @@ jobs:
       hostPath: graaljs
       hostName: graaljs
     <<: [*execution_steps]
+  "ESMeta: New or modified tests execution":
+    docker:
+      - image: doehyunbaek/esmeta:v0.1.0-rc5
+    working_directory: ~/test262
+    environment:
+      hostType: esmeta
+      ESMETA_HOME: /app/esmeta
+    steps:
+      - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
+      - run: git config --global --add safe.directory /root/test262
+      - checkout
+      - run: hostPath=/app/esmeta/bin/esmeta ./tools/scripts/ci_test.sh
 workflows:
   version: 2
   Tools:
