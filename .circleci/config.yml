@@ -166,6 +166,26 @@ jobs:
       hostPath: graaljs
       hostName: graaljs
     <<: [*execution_steps]
+  "ESMeta: New or modified tests execution":
+    docker:
+      - image: sbtscala/scala-sbt:eclipse-temurin-17.0.4_1.8.0_3.2.1
+    working_directory: ~/test262
+    environment:
+      hostType: esmeta
+      ESMETA_HOME: /app/esmeta
+    steps:
+      - run: git config --global --add safe.directory /root/test262
+      - run: git config --global --add safe.directory /tmp/_circleci_local_build_repo
+      - checkout
+      - run: mkdir -p "${ESMETA_HOME}" 
+      - run: cd "${ESMETA_HOME}" && git init 
+      - run: cd "${ESMETA_HOME}" && git remote add esmeta https://github.com/es-meta/esmeta.git 
+      - run: cd "${ESMETA_HOME}" && git fetch --depth 1 esmeta 568abcfc85534c661bba3576815badffe185d334  
+      - run: cd "${ESMETA_HOME}" && git checkout FETCH_HEAD 
+      - run: cd "${ESMETA_HOME}" && git submodule update --init --depth 1
+      - run: cd "${ESMETA_HOME}" && sbt assembly 
+      - run: chmod +x /app/esmeta/bin/esmeta 
+      - run: hostPath=/app/esmeta/bin/esmeta ./tools/scripts/ci_test.sh
 workflows:
   version: 2
   Tools:
