@@ -30,7 +30,7 @@ jobs:
       - name: run test262
         run: |
           git fetch origin main
-          paths=$(npm run diff)
+          paths=$(npm run --silent diff)
           if [ "$paths" == "" ]; then
             echo No test files added or modified. Exiting.
             exit 0
