@@ -1,6 +1,6 @@
 name: 'esmeta test262'
 
-on: [pull_request]
+on: [push]
 
 jobs:
   esmeta-test262:
@@ -30,7 +30,7 @@ jobs:
       - name: run test262
         run: |
           git fetch origin main
-          paths=$(git diff --diff-filter ACMR --name-only origin/main.. -- test/)
+          paths=$(npm run diff)
           if [ "$paths" == "" ]; then
             echo No test files added or modified. Exiting.
             exit 0
