@@ -1,6 +1,6 @@
 name: 'esmeta test262'
 
-on: [pull_request]
+on: [push]
 
 jobs:
   esmeta-test262:
